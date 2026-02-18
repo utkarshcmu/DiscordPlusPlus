@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DiscordPlusPlus</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: linear-gradient(135deg, #5865F2 0%, #4752C4 50%, #3c45a5 100%);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: white;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      padding: 0.75rem 1rem;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .hero-logo {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .tagline {
+      margin-top: 0.25rem;
+      font-size: 0.9rem;
+      font-weight: 400;
+      opacity: 0.95;
+    }
+
+    .add-bot-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: #fff;
+      color: #5865F2;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .add-bot-link:hover {
+      background: rgba(255, 255, 255, 0.9);
+      color: #4752C4;
+    }
+
+    .add-bot-row {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem 0;
+    }
+
+    .main-content {
+      flex: 1;
+      min-height: 0;
+      width: 100%;
+      max-width: 1200px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr auto auto;
+      gap: 0.75rem;
+      align-items: stretch;
+    }
+
+    .top-row {
+      grid-column: 1 / -1;
+      grid-row: 1;
+      min-height: 0;
+    }
+
+    .image-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 0;
+      padding: 0.5rem 0;
+    }
+
+    .leaderboard-image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      object-position: center;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .content-row {
+      grid-column: 1;
+      grid-row: 3;
+    }
+
+    .content-sections {
+      height: 100%;
+      min-height: 0;
+    }
+
+    .usage-section,
+    .commands-section {
+      color: #dcddde;
+    }
+
+    .usage-section {
+      background: #36393f;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      height: 100%;
+    }
+
+    .usage-section h2,
+    .commands-section h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: #ffffff;
+      margin-bottom: 0.6rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .usage-section p,
+    .commands-section p,
+    .command-group p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: #b9bbbe;
+      margin-bottom: 0.4rem;
+    }
+
+    .usage-section p:last-of-type,
+    .command-group p:last-of-type {
+      margin-bottom: 0;
+    }
+
+    .command-group {
+      margin-top: 0.6rem;
+      padding-top: 0.6rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .command-group:first-of-type {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    .command-group h3 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 0.35rem;
+      letter-spacing: 0.01em;
+    }
+
+    .command-group code {
+      background: #2f3136;
+      color: #dcddde;
+      padding: 0.15rem 0.35rem;
+      border-radius: 4px;
+      font-family: 'Consolas', 'Monaco', monospace;
+      font-size: 0.8em;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .command-group code.example {
+      display: block;
+      padding: 0.4rem 0.6rem;
+      margin-top: 0.35rem;
+      font-size: 0.8em;
+      color: #5865F2;
+      background: rgba(88, 101, 242, 0.15);
+    }
+
+    .command-group ul {
+      margin-top: 0.35rem;
+      padding-left: 1.1rem;
+      font-size: 0.78rem;
+      line-height: 1.45;
+      color: #b9bbbe;
+    }
+
+    .command-group li {
+      margin-bottom: 0.2rem;
+    }
+
+    .commands-section {
+      grid-column: 2;
+      grid-row: 3;
+      background: #36393f;
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .commands-section h2 {
+      flex-shrink: 0;
+    }
+
+    .commands-section .commands-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      flex: 1;
+      align-content: start;
+    }
+
+    .commands-section .command-group {
+      margin-top: 0;
+      padding-top: 0;
+      border-top: none;
+    }
+
+    @media (max-width: 768px) {
+      html, body { overflow: auto; }
+      .main-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+      }
+      .content-row { grid-column: 1; grid-row: 3; }
+      .commands-section { grid-column: 1; grid-row: 4; }
+      .commands-section .commands-grid { grid-template-columns: 1fr; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <img src="assets/discordplusplus-logo.png" alt="DiscordPlusPlus logo" class="hero-logo">
+    <h1>DiscordPlusPlus</h1>
+    <p class="tagline">Leaderboard for your Discord server</p>
+  </div>
+
+  <div class="main-content">
+    <div class="top-row">
+      <div class="image-wrapper">
+        <img src="assets/leaderboard-example.png" alt="PlusPlus leaderboard example in Discord chat" class="leaderboard-image">
+      </div>
+    </div>
+
+    <div class="add-bot-row">
+      <a href="https://discord.com/oauth2/authorize?client_id=1472513374091739290&permissions=274877974528&integration_type=0&scope=bot+applications.commands" class="add-bot-link" target="_blank" rel="noopener noreferrer">Add to your Discord server</a>
+    </div>
+
+    <div class="content-row">
+    <div class="content-sections">
+      <section class="usage-section">
+        <h2>Usage</h2>
+        <div class="command-group">
+          <h3>Give Points (<code>++</code>)</h3>
+          <p><code>++</code> adds 1 point.</p>
+          <code class="example">@username++</code>
+          <ul>
+            <li>No self-points</li>
+            <li>Each mention counts</li>
+          </ul>
+        </div>
+
+        <div class="command-group">
+          <h3>Remove Points (<code>--</code>)</h3>
+          <p><code>--</code> subtracts 1.</p>
+          <code class="example">@username--</code>
+          <ul>
+            <li>Can go negative</li>
+            <li>No self-removal</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+    </div>
+
+    <section class="commands-section">
+      <h2>Commands</h2>
+      <div class="commands-grid">
+        <div class="command-group">
+          <h3>Leaderboard</h3>
+          <p>Type <code>leaderboard</code> to see rankings.</p>
+          <code class="example">@PlusPlus leaderboard</code>
+        </div>
+        <div class="command-group">
+          <h3>Help</h3>
+          <p>Type <code>help</code> for instructions.</p>
+          <code class="example">@PlusPlus help</code>
+        </div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
